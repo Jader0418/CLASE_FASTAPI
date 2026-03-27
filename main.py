@@ -2,10 +2,13 @@ from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
+
 productos = {
-    1: {"nombre": "Teclado", "stock": 10, "valor": 50000},
-    2: {"nombre": "Mouse", "stock": 5, "valor": 30000},
-    3: {"nombre": "Monitor", "stock": 2, "valor": 800000}
+    1: {"nombre": "Jamón", "stock": 20, "valor": 8000},
+    2: {"nombre": "Salchicha", "stock": 35, "valor": 12000},
+    3: {"nombre": "Chorizo", "stock": 15, "valor": 15000},
+    4: {"nombre": "Mortadela", "stock": 10, "valor": 9000},
+    5: {"nombre": "Tocineta", "stock": 8, "valor": 18000}
 }
 
 @app.get("/")
@@ -25,6 +28,9 @@ async def calcular_cuadrado(numero: int):
 @app.get("/producto/{id}")
 async def obtener_producto(id: int):
     
+    if id not in productos:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+
     return {
         "id": id,
         "nombre": productos[id]["nombre"],
